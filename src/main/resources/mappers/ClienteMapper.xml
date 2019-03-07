@@ -5,8 +5,8 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
     <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
-        select * from VI_CLIENTES
-    </select>
+        select * from VI_CLIENTES        
+    </select>   
     <resultMap type='Cliente' id='ClienteResult'>
         <id property='documento' column='documento'/>
         <result property='nombre' column='nombre'/>
