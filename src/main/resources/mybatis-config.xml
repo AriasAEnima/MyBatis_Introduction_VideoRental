@@ -14,6 +14,7 @@
         <typeAlias type="edu.eci.cvds.samples.entities.Item" alias="Item"/>
         <typeAlias type="edu.eci.cvds.samples.entities.ItemRentado" alias="ItemRentado"/>
         <typeAlias type="edu.eci.cvds.samples.entities.TipoItem" alias="TipoItem"/>
+        
     </typeAliases>	
 
     <environments default="development">
