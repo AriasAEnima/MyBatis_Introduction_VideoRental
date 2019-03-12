@@ -5,15 +5,60 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
     <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
-        select * from VI_CLIENTES        
+        select
+        c.nombre as nombrecliente,
+        c.documento as documentocliente,
+        c.telefono as telefono,
+        c.direccion as direccion,
+        c.email as email,
+        c.vetado as vetado,
+        ir.id as idrentado ,
+        ir.fechainiciorenta as fechainiciorenta,
+        ir.fechafinrenta as fechafinrenta,
+        i.id as iditem ,
+        i.nombre as  itemnombre,
+        i.descripcion as descripcionitem,
+        i.fechalanzamiento as fechalanzamiento ,
+        i.tarifaxdia as tarifaxdia,
+        i.formatorenta as formatorenta ,
+        i.genero as genero ,        
+        ti.id as tipoid,
+        ti.descripcion as tipodescripcion
+        FROM VI_CLIENTES as c 
+        left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
+        left join VI_ITEMS as i on ir.ITEMS_id=i.id 
+        left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id     
     </select>   
     <resultMap type='Cliente' id='ClienteResult'>
-        <id property='documento' column='documento'/>
-        <result property='nombre' column='nombre'/>
+        <id property='documento' column='documentocliente'/>
+        <result property='nombre' column='nombrecliente'/>
         <result property='telefono' column='telefono'/>  
         <result property='direccion' column='direccion'/>  
         <result property='email' column='email'/>  
         <result property='vetado' column='vetado'/>        
+        <collection property='rentados' ofType='ItemRentado' column='idrentado' resultMap='ItemRentadosResult'></collection>
+    </resultMap>
+     <resultMap type='Item' id='ItemResult'>
+        <id property='id' column='id'/>
+        <result property='nombre' column='itemnombre'/>
+        <result property='descripcion' column='descripcionitem'/>  
+        <result property='fechaLanzamiento' column='fechalanzamiento'/>  
+        <result property='tarifaxDia' column='tarifaxdia'/>  
+        <result property='formatoRenta' column='formatorenta'/>
+        <result property='genero' column='genero'/>   
+        <association property="tipo" javaType="TipoItem" column="tipoid">            
+        </association>     
+    </resultMap>
+    <resultMap type='ItemRentado' id='ItemRentadoResult'>
+        <id property='id' column='id'/>   
+        <result property='fechainiciorenta' column='fechainiciorenta'/>
+        <result property='fechafinrenta' column='fechafinrenta'/>    
+        <association property="item" javaType="Item" column="iditem">            
+        </association>   
+     </resultMap>
+      <resultMap type='TipoItem' id='TipoItemResult'>
+        <id property='id' column='tipoid'/>
+        <result property='descripcion' column='tipodescripcion'/>              
     </resultMap>
           	
 </mapper>
