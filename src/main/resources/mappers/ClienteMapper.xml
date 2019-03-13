@@ -29,6 +29,32 @@
         left join VI_ITEMS as i on ir.ITEMS_id=i.id 
         left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id     
     </select>   
+    <select parameterType="map" id="consultarCliente" resultMap="ClienteResult">
+        select
+        c.nombre as nombrecliente,
+        c.documento as documentocliente,
+        c.telefono as telefono,
+        c.direccion as direccion,
+        c.email as email,
+        c.vetado as vetado,
+        ir.id as idrentado ,
+        ir.fechainiciorenta as fechainiciorenta,
+        ir.fechafinrenta as fechafinrenta,
+        i.id as iditem ,
+        i.nombre as  itemnombre,
+        i.descripcion as descripcionitem,
+        i.fechalanzamiento as fechalanzamiento ,
+        i.tarifaxdia as tarifaxdia,
+        i.formatorenta as formatorenta ,
+        i.genero as genero ,        
+        ti.id as tipoid,
+        ti.descripcion as tipodescripcion
+        FROM VI_CLIENTES as c 
+        left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
+        left join VI_ITEMS as i on ir.ITEMS_id=i.id 
+        left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id     
+        WHERE c.documento=#{idcli}
+    </select>  
     <resultMap type='Cliente' id='ClienteResult'>
         <id property='documento' column='documentocliente'/>
         <result property='nombre' column='nombrecliente'/>
@@ -46,14 +72,14 @@
         <result property='tarifaxDia' column='tarifaxdia'/>  
         <result property='formatoRenta' column='formatorenta'/>
         <result property='genero' column='genero'/>   
-        <association property="tipo" javaType="TipoItem" column="tipoid">            
+        <association property="tipo" javaType="TipoItem" resultMap="TipoItemResult" column="tipoid">            
         </association>     
     </resultMap>
-    <resultMap type='ItemRentado' id='ItemRentadoResult'>
+    <resultMap type='ItemRentado' id='ItemRentadosResult'>
         <id property='id' column='id'/>   
         <result property='fechainiciorenta' column='fechainiciorenta'/>
         <result property='fechafinrenta' column='fechafinrenta'/>    
-        <association property="item" javaType="Item" column="iditem">            
+        <association property="item" javaType="Item" resultMap="ItemResult" column="iditem">            
         </association>   
      </resultMap>
       <resultMap type='TipoItem' id='TipoItemResult'>
