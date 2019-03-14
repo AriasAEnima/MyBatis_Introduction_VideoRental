@@ -62,19 +62,10 @@
         <result property='direccion' column='direccion'/>  
         <result property='email' column='email'/>  
         <result property='vetado' column='vetado'/>        
-        <collection property='rentados' ofType='ItemRentado' column='idrentado' resultMap='ItemRentadosResult'></collection>
+        <collection property='rentados' ofType='ItemRentado' column='idrentado' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemRentadoResult'></collection>
     </resultMap>
-     <resultMap type='Item' id='ItemResult'>
-        <id property='id' column='id'/>
-        <result property='nombre' column='itemnombre'/>
-        <result property='descripcion' column='descripcionitem'/>  
-        <result property='fechaLanzamiento' column='fechalanzamiento'/>  
-        <result property='tarifaxDia' column='tarifaxdia'/>  
-        <result property='formatoRenta' column='formatorenta'/>
-        <result property='genero' column='genero'/>   
-        <association property="tipo" javaType="TipoItem" resultMap="TipoItemResult" column="tipoid">            
-        </association>     
-    </resultMap>
+                                                                                          
+    
     
     <insert parameterType="ItemRentado" id="agregarItemRentadoACliente">
 	INSERT INTO VI_ITEMRENTADO (CLIENTES_documento,ITEMS_id,fechainiciorenta,fechafinrenta)
