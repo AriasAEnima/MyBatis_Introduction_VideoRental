@@ -19,9 +19,12 @@ package edu.eci.cvds.samples.services.client;
 
 
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.*;
+import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.TipoItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Date;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -65,8 +68,17 @@ public class MyBatisExample {
         SqlSession sqlss = sessionfact.openSession();
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
         System.out.println(cm.consultarClientes());   
-        System.out.println("=================================");  
-        System.out.println(cm.consultarCliente(123456));  
+        //System.out.println("=================================");  
+        //System.out.println(cm.consultarCliente(123456));  
+        
+        /*ItemRentadoACliente*/
+        cm.agregarItemRentadoACliente(100, 121, new Date(3222019), new Date(10102019));
+        
+        ItemMapper im = sqlss.getMapper(ItemMapper.class);
+        im.insertarItem(new Item(new TipoItem(3, "Juego"), 15, "Resindent Evil 2 rm", "Survivor game", new Date(2019, 01, 25), 2000, "Digital", "Leon Kennedy and Claire Redfield"));
+        im.deleteItem(14);
+        System.out.println(im.consultarItem(15));
+        System.out.println(im.consultarItems());
         
         sqlss.commit();       
         sqlss.close();

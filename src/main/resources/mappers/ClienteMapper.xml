@@ -75,16 +75,10 @@
         <association property="tipo" javaType="TipoItem" resultMap="TipoItemResult" column="tipoid">            
         </association>     
     </resultMap>
-    <resultMap type='ItemRentado' id='ItemRentadosResult'>
-        <id property='id' column='id'/>   
-        <result property='fechainiciorenta' column='fechainiciorenta'/>
-        <result property='fechafinrenta' column='fechafinrenta'/>    
-        <association property="item" javaType="Item" resultMap="ItemResult" column="iditem">            
-        </association>   
-     </resultMap>
-      <resultMap type='TipoItem' id='TipoItemResult'>
-        <id property='id' column='tipoid'/>
-        <result property='descripcion' column='tipodescripcion'/>              
-    </resultMap>
+    
+    <insert parameterType="ItemRentado" id="agregarItemRentadoACliente">
+	INSERT INTO VI_ITEMRENTADO (CLIENTES_documento,ITEMS_id,fechainiciorenta,fechafinrenta)
+		VALUES (#{idir},#{idit},#{fiir},#{ffir})
+    </insert>
           	
 </mapper>
