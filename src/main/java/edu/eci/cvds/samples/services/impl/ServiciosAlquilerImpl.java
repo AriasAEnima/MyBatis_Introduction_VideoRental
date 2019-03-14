@@ -13,32 +13,62 @@ import edu.eci.cvds.samples.entities.TipoItem;
 import edu.eci.cvds.samples.services.ExcepcionServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 public class ServiciosAlquilerImpl implements ServiciosAlquiler {
 
    @Inject
    private ItemDAO itemDAO;
+   @Inject 
+   private ClienteDAO clienteDAO;
+   
 
    @Override
-   public int valorMultaRetrasoxDia(int itemId) {
-       throw new UnsupportedOperationException("Not supported yet.");
+   public int valorMultaRetrasoxDia(int itemId) throws ExcepcionServiciosAlquiler {
+       Item it=null;
+       try {
+           it=itemDAO.load(itemId);
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Item no encontrado", ex);
+       }
+        return (int) it.getTarifaxDia();
    }
 
    @Override
    public Cliente consultarCliente(long docu) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       Cliente cl=null;
+       try {
+           cl=clienteDAO.load(docu);
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Cliente no encontrado", ex);
+       }
+        return cl;
    }
 
    @Override
    public List<ItemRentado> consultarItemsCliente(long idcliente) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       Cliente cl=null;
+       try {
+           cl=clienteDAO.load(idcliente);           
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Cliente no encontrado", ex);
+       }
+        return cl.getRentados();
    }
 
    @Override
    public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       List<Cliente> ans=new ArrayList<>();
+       try {
+           ans=clienteDAO.loadAll();           
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Sin Registros", ex);
+       }
+        return ans;
    }
 
    @Override
@@ -51,8 +81,12 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
    }
 
    @Override
-   public List<Item> consultarItemsDisponibles() {
-       throw new UnsupportedOperationException("Not supported yet.");
+   public List<Item> consultarItemsDisponibles() throws ExcepcionServiciosAlquiler{
+       try {
+           return itemDAO.loadAll();
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar los items ",ex);
+       }
    }
 
    @Override

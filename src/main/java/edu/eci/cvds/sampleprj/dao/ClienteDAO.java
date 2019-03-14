@@ -5,10 +5,17 @@
  */
 package edu.eci.cvds.sampleprj.dao;
 
+import edu.eci.cvds.samples.entities.Cliente;
+import java.util.List;
+
 /**
  *
  * @author 2131381
  */
-public class ClienteDAO {
-    
+public interface ClienteDAO {
+         
+
+     public Cliente load(long dc) throws PersistenceException;
+     
+     public List<Cliente> loadAll() throws PersistenceException;
 }
