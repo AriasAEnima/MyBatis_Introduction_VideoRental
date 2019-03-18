@@ -11,7 +11,9 @@ import edu.eci.cvds.sampleprj.dao.PersistenceException;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
 import edu.eci.cvds.samples.entities.Cliente;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Date;
 
 /**
  *
@@ -44,5 +46,41 @@ public class MyBATISClienteDAO implements ClienteDAO{
         }   
         return ans;
     }
+
+    @Override
+    public void rentItemtoClient(long dc,int idit,int days) throws PersistenceException {
+         try{
+            Date fechainicio=new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(fechainicio);
+            c.add(Calendar.DATE, days);
+            clienteMapper.agregarItemRentadoACliente(dc, idit, fechainicio, c.getTime());                  
+        }catch(org.apache.ibatis.exceptions.PersistenceException e){
+             throw new PersistenceException("No existe el cliente o el item",e);
+        }   
+        
+    }
+
+    @Override
+    public void addCliente(Cliente c) throws PersistenceException{
+        try{
+            
+             clienteMapper.agregarCliente(c.getDocumento(),
+                     c.getNombre(), c.getTelefono(), c.getDireccion(), c.getEmail(), c.isVetado()?1:0);
+        }catch(org.apache.ibatis.exceptions.PersistenceException e){
+             throw new PersistenceException("Cliente ya existe",e);
+        }   
+    }
+
+    @Override
+    public void setVetado(long doc,boolean v) throws PersistenceException {        
+        try{
+            clienteMapper.updateVetado(doc,v?1:0);                    
+        }catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Item no existe",e);
+        }        
+    }
+    
+    
     
 }

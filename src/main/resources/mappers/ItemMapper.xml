@@ -14,10 +14,15 @@
     </select>
 	
     <insert parameterType="Item" id="insertarItem">
-	INSERT INTO VI_ITEMS (id,nombre,descripcion,fechalanzamiento,tarifaxdia,formatorenta,genero,TIPOITEM_id)
-		VALUES (#{item.id},#{item.nombre},#{item.descripcion},#{item.fechaLanzamiento},#{item.tarifaxDia},#{item.formatoRenta},#{item.genero},#{item.tipo.id})
+	INSERT INTO VI_ITEMS (nombre,descripcion,fechalanzamiento,tarifaxdia,formatorenta,genero,TIPOITEM_id)
+		VALUES (#{item.nombre},#{item.descripcion},#{item.fechaLanzamiento},#{item.tarifaxDia},#{item.formatoRenta},#{item.genero},#{item.tipo.id})
     </insert>
-	
+    
+    <update id="updateTarifa">
+        update VI_ITEMS set
+          tarifaxdia = #{nuevatarifa}          
+        where id = #{id}
+    </update>
     <delete parameterType="Item" id="deleteItem">
 	DELETE FROM VI_ITEMS 
                 WHERE id=#{id}

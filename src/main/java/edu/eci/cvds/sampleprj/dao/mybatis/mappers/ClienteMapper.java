@@ -22,7 +22,7 @@ public interface ClienteMapper {
      * @param fechainicio
      * @param fechafin 
      */
-     public void agregarItemRentadoACliente(@Param("idir") int id,
+     public void agregarItemRentadoACliente(@Param("doc") long id,
             @Param("idit")int idit, 
             @Param("fiir")Date fechainicio,
             @Param("ffir")Date fechafin);
@@ -32,5 +32,12 @@ public interface ClienteMapper {
      * @return 
      */
     public List<Cliente> consultarClientes();
+    
+    public void agregarCliente(@Param("doc") long doc, 
+            @Param("nombre") String nombre, @Param("telefono") String telefono,
+            @Param("direccion") String direccion, @Param("email") String email,
+            @Param("vetado") int vetado);
+
+    public void updateVetado(@Param("doc") long doc,@Param("vetado")int vet);
     
 }

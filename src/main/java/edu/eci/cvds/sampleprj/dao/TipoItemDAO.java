@@ -5,10 +5,15 @@
  */
 package edu.eci.cvds.sampleprj.dao;
 
+import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.TipoItem;
+import java.util.List;
+
 /**
  *
  * @author 2131381
  */
-public class TipoItemDAO {
+public interface TipoItemDAO {
     
+    public List<TipoItem> loadAll() throws PersistenceException;
 }

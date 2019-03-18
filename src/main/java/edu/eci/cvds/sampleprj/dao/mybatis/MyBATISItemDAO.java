@@ -29,24 +29,35 @@ public class MyBATISItemDAO implements ItemDAO{
 
   @Override
   public Item load(int id) throws PersistenceException {
-    try{
-        return itemMapper.consultarItem(id);
-    }
-    catch(org.apache.ibatis.exceptions.PersistenceException e){
-        throw new PersistenceException("Error al consultar el item "+id,e);
-    }
-
+        try{
+            return itemMapper.consultarItem(id);
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar el item "+id,e);
+        }
 
     }
 
     @Override
     public List<Item> loadAll() throws PersistenceException {
         try{
-        return itemMapper.consultarItems();
+            return itemMapper.consultarItems();
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             throw new PersistenceException("Error al consultar los items ",e);
         }
     }
+
+    @Override
+    public void updateTarifa(int id, long nuevatarifa) throws PersistenceException {
+         try{
+            itemMapper.updateTarifa(id, nuevatarifa);
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar los items ",e);
+        }
+    }
+
+   
 
   }

@@ -64,12 +64,16 @@
         <result property='vetado' column='vetado'/>        
         <collection property='rentados' ofType='ItemRentado' column='idrentado' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemRentadoResult'></collection>
     </resultMap>
-                                                                                          
+    <update id="updateTarifa">
+        update VI_CLIENTES set
+          vetado = #{vetado}          
+        where id = #{id}
+    </update>                                                                          
     
     
     <insert parameterType="ItemRentado" id="agregarItemRentadoACliente">
 	INSERT INTO VI_ITEMRENTADO (CLIENTES_documento,ITEMS_id,fechainiciorenta,fechafinrenta)
-		VALUES (#{idir},#{idit},#{fiir},#{ffir})
+		VALUES (#{doc},#{idit},#{fiir},#{ffir})
     </insert>
           	
 </mapper>

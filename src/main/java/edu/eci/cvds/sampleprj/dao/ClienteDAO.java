@@ -18,4 +18,10 @@ public interface ClienteDAO {
      public Cliente load(long dc) throws PersistenceException;
      
      public List<Cliente> loadAll() throws PersistenceException;
+     
+     public void rentItemtoClient(long dc,int idit,int days) throws PersistenceException;
+
+    public void addCliente(Cliente c) throws PersistenceException;
+    
+    public void setVetado(long doc,boolean v) throws PersistenceException;
 }
