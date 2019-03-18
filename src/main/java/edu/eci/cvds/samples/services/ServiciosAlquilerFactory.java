@@ -15,6 +15,7 @@ import org.mybatis.guice.XMLMyBatisModule;
 import java.util.Optional;
 
 import static com.google.inject.Guice.createInjector;
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
 
 public class ServiciosAlquilerFactory {
 
@@ -28,6 +29,8 @@ public class ServiciosAlquilerFactory {
            protected void initialize() {
                setEnvironmentId(env);
                setClassPathResource(pathResource);
+               bind(ClienteDAO.class).to(MyBATISClienteDAO.class);
+               bind(TipoItemDAO.class).to(MyBATISTipoItemDAO.class);
                bind(ItemDAO.class).to(MyBATISItemDAO.class);
                bind(ServiciosAlquiler.class).to(ServiciosAlquilerItemsImpl.class);
            }
