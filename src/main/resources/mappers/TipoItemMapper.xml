@@ -8,7 +8,7 @@
         select id as tipoid, descripcion from VI_TIPOITEM
     </select>
     
-     <select parameterType="TipoItem" id="getTipoItem" resultMap="ItemResult">
+     <select parameterType="map" id="getTipoItem" resultMap="TipoItemResult">
 	SELECT * FROM VI_TIPOITEM
 		WHERE id=#{id}
     </select>

@@ -69,9 +69,12 @@
           vetado = #{vetado}          
         where id = #{id}
     </update>                                                                          
+    <insert parameterType="map" id="agregarCliente">
+	INSERT INTO VI_CLIENTES (documento,nombre,telefono,direccion,email,vetado)
+        VALUES (#{cl.documento},#{cl.nombre},#{cl.telefono},#{cl.direccion},#{cl.email},#{cl.vetado})
+    </insert>
     
-    
-    <insert parameterType="ItemRentado" id="agregarItemRentadoACliente">
+    <insert parameterType="map" id="agregarItemRentadoACliente">
 	INSERT INTO VI_ITEMRENTADO (CLIENTES_documento,ITEMS_id,fechainiciorenta,fechafinrenta)
 		VALUES (#{doc},#{idit},#{fiir},#{ffir})
     </insert>

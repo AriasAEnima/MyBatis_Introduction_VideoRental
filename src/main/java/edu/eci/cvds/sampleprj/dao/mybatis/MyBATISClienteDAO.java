@@ -62,11 +62,9 @@ public class MyBATISClienteDAO implements ClienteDAO{
     }
 
     @Override
-    public void addCliente(Cliente c) throws PersistenceException{
+    public void save(Cliente c) throws PersistenceException{
         try{
-            
-             clienteMapper.agregarCliente(c.getDocumento(),
-                     c.getNombre(), c.getTelefono(), c.getDireccion(), c.getEmail(), c.isVetado()?1:0);
+             clienteMapper.agregarCliente(c);
         }catch(org.apache.ibatis.exceptions.PersistenceException e){
              throw new PersistenceException("Cliente ya existe",e);
         }   

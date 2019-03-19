@@ -21,7 +21,7 @@ public interface ClienteDAO {
      
      public void rentItemtoClient(long dc,int idit,int days) throws PersistenceException;
 
-    public void addCliente(Cliente c) throws PersistenceException;
+    public void save(Cliente c) throws PersistenceException;
     
     public void setVetado(long doc,boolean v) throws PersistenceException;
 }

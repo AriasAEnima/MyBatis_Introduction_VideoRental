@@ -143,7 +143,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
    @Override
    public void registrarCliente(Cliente c) throws ExcepcionServiciosAlquiler {
       try {
-           clienteDAO.addCliente(c);
+           clienteDAO.save(c);
        } catch (PersistenceException ex) {
            throw new ExcepcionServiciosAlquiler("No existe el item o no existe el cliente", ex);
        }  
