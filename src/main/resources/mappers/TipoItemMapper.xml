@@ -15,7 +15,7 @@
     
     <insert parameterType="map" id="agregarTipoItem" >
 	INSERT INTO VI_TIPOITEM (id,descripcion)
-		VALUES (112345,'abcd')
+		VALUES (#{ti.id},#{ti.descripcion))
     </insert>
     
  
