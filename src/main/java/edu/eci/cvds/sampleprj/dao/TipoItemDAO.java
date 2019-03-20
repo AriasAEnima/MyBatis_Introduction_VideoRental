@@ -16,4 +16,8 @@ import java.util.List;
 public interface TipoItemDAO {
     
     public List<TipoItem> loadAll() throws PersistenceException;
+
+    public void save(TipoItem ti) throws PersistenceException;
+
+    public TipoItem load(int id) throws PersistenceException;
 }

@@ -21,15 +21,42 @@ import java.util.List;
 public class MyBATISTipoItemDAO implements TipoItemDAO{
     @Inject
     TipoItemMapper tipoItemMapper;
+    private String it;
 
     @Override
     public List<TipoItem> loadAll() throws PersistenceException {
         try{
-            return tipoItemMapper.getTiposItems();
+            return tipoItemMapper.consultarTiposItems();
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             throw new PersistenceException("Error al consultar los tipos",e);
         }
     }
-    
+
+    @Override
+    public void save(TipoItem ti) throws PersistenceException {
+       try{
+           tipoItemMapper.agregarTipoItem(ti);
+           if(ti.getDescripcion()==null){
+               System.out.println("NO ESTA NULOOOOOOOO ====================");
+           }
+       }
+       catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar los tipos",e);
+       }
+    }
+
+    @Override
+    public TipoItem load(int id) throws PersistenceException {
+        try{
+            System.out.println("Llego a MYbatis tipo item DAO");
+            return tipoItemMapper.consultarTipo(112345);
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            System.out.println("Se estalla aqui");
+            throw new PersistenceException("Error al consultar los tipos",e);
+        }
+    }
+
+  
 }
