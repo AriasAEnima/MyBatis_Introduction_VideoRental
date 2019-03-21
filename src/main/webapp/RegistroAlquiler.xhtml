@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head></h:head>
+
+    <h:head></h:head>
+    <h:body>
+        <h:form id="items">
+            <p:dataTable var="itemRentado" value="#{AlquilerItems.listaItems}">
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{itemRentado.item.nombre}" />
+                </p:column>
+                
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{itemRentado.item.tipo.descripcion}" />
+                </p:column>
+                
+                <p:column headerText="Multa">
+                    <h:outputText value="#{itemRentado.item.tarifaxDia}" />
+                </p:column>
+                
+                              
+
+            </p:dataTable>
+
+            <br/>
+            <h:outputText value="RENTAR NUEVO ITEM" />
+            <br/>
+            <br/>
+            CODIGO ITEM:   
+            <h:inputText value="#{AlquilerItems.itemId}"/>
+            <br/>
+            NUMERO DIAS: 
+            <h:inputText value="#{AlquilerItems.dias}"/>
+            <br/>
+            <br/>
+            <p:commandButton value="Consultar valor item" actionListener="#{AlquilerItems.consultaPrecio()}" update="items" icon="ui-icon-search"/>
+            <br/>
+            <br/>
+            
+            
+            <p:dataTable value="#{AlquilerItems}">
+                <p:column headerText="Nombre"> 
+                    <h:outputText value="#{AlquilerItems.it.nombre}" /> 
+                </p:column>
+                <p:column headerText="Precio"> 
+                    <h:outputText value="#{AlquilerItems.precio}" /> 
+                </p:column>
+            </p:dataTable>
+             <br/>
+             <p:commandButton value="Rentar item" icon="ui-icon-circle-check"  update="items" actionListener="#{AlquilerItems.rentarItem()}"/>
+            <br/>
+
+        </h:form>
+
+    </h:body>
+
+</html>
