@@ -79,7 +79,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            return itemDAO.load(id);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error al consultar el item "+id,ex);
+           throw new ExcepcionServiciosAlquiler(ex.getMessage() +id,ex);
        }
    }
 
@@ -120,7 +120,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
    @Override
    public TipoItem consultarTipoItem(int id) throws ExcepcionServiciosAlquiler {
          try {
-             System.out.println("Llego a IMPL");
+            
            return tipoitemDAO.load(id);
        } catch (PersistenceException ex) {
            throw new ExcepcionServiciosAlquiler("Error al consultar los tipos",ex);
@@ -176,7 +176,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
         try {
            itemDAO.save(i);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error de datos , posiblemente tipo no existe ",ex);
+           throw new ExcepcionServiciosAlquiler(ex.getMessage(),ex);
        }
    }
 
@@ -194,7 +194,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
          try {
              tipoitemDAO.save(ti);
        } catch (PersistenceException ex) {      
-           throw new ExcepcionServiciosAlquiler("Error de datos ",ex);
+           throw new ExcepcionServiciosAlquiler(ex.getMessage(),ex);
        }
         
     }

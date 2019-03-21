@@ -2,16 +2,20 @@ package edu.eci.cvds.test;
 import com.google.inject.Inject;
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.ItemRentado;
 import edu.eci.cvds.samples.entities.TipoItem;
 import edu.eci.cvds.samples.services.ExcepcionServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquilerFactory;
 import static edu.eci.cvds.test.Generadores.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,185 +27,182 @@ public class ServiciosAlquilerTest {
 @Inject
 private SqlSession sqlSession;
 
-private static List<Long> usedDocs;
-private static List<Item> usedItems;
-private static List<Integer> usedTypes;
-private static ServiciosAlquiler serviciosAlquiler;
+
+private  List<Long> usedDocs;
+
+private  List<Integer> usedIdItems;
+private  List<Integer> usedIdTypes;
+private  ServiciosAlquiler serviciosAlquiler;
+private  List<Cliente> clientesfill;
 
     public ServiciosAlquilerTest() {       
         serviciosAlquiler = ServiciosAlquilerFactory.getInstance().getServiciosAlquilerTesting();
+        
     }   
+    
+    @Before
+    public void setUp(){
+        usedIdTypes=new ArrayList<>();
+        usedDocs=new ArrayList<>();
+        usedIdItems=new ArrayList<>();      
+        clientesfill=new ArrayList<>();
+        fillClients();        
+    }
+ 
+    
+    
     
     @Test
-    public void agregarTipoTest(){
-       qt().forAll(tipoitems()).check((tipoit)->{
-            boolean ans=false;
-            if(tipoit.getDescripcion()!=null){
-                try {
-                    serviciosAlquiler.registrarTipo(tipoit);
-                } catch (ExcepcionServiciosAlquiler ex) {
-                    System.out.println(ex.getMessage());
-                }
-                ans=true;
+    public void consultarTiposTest(){  
+         for (int itd: usedIdTypes){
+            try {
+                serviciosAlquiler.consultarTipoItem(itd);
+            } catch (ExcepcionServiciosAlquiler ex) {
+                System.out.println(ex.getMessage());
             }
-           
-            return true;});
-        try {
-            System.out.println("get "+serviciosAlquiler.consultarTipoItem(112345));
-        } catch (ExcepcionServiciosAlquiler ex) {
-            System.out.println(ex.getMessage());
-        }
-    
-      
+        }         
     }
     
-    /**
-     * 
-     * Test of Registrar Cliente , Registrar Item , Registrar Alquiler Cliente
-     * 
+    @Test
+    public void consultarItemsRentadosClienteTest(){
+        for (long doc:usedDocs){
+            try {
+                int db=serviciosAlquiler.consultarItemsCliente(doc).size();
+                int cu=findClient(doc).getRentados().size();
+                assertTrue("El cliente no tiene la misma cantidad de items",db==cu);
+            } catch (ExcepcionServiciosAlquiler ex) {
+                System.out.println(ex.getMessage());
+            }
+        }        
+    }
+    
+    @Test 
+    public void consultaCostoAlquierTest(){
+        for (int idt: usedIdItems){               
+            qt().forAll(integers().between(1,20)).check((n)->{
+                boolean ans=true;
+                 try {
+                    Item i = serviciosAlquiler.consultarItem(idt);
+                    long valor=i.getTarifaxDia();
+                    long resl=serviciosAlquiler.consultarCostoAlquiler(i.getId(), n);
+                    ans=valor*n==resl;
+                 } catch (ExcepcionServiciosAlquiler ex) {
+                     System.out.println(ex.getMessage());
+                     ans=false;
+                 }
+                 return ans;});
+        }      
+    }
+  
+    
+        
+    @Test
+    public void consultarItemsTest(){  
+        for (int itd:usedIdItems){
+            try {
+                serviciosAlquiler.consultarItem(itd);
+            } catch (ExcepcionServiciosAlquiler ex) {
+                System.out.println(ex.getMessage());
+            }
+        }    
+    }
+    
+     @Test
+    public void consultarClientesTest(){  
+        for (long doc:usedDocs){
+            try {
+                serviciosAlquiler.consultarCliente(doc);
+            } catch (ExcepcionServiciosAlquiler ex) {
+                System.out.println(ex.getMessage());
+            }
+        }        
+    }
+    
+    
+   
+    
+    
+    
+   
+    
+    
+    
+
+    
+ ////////////      //////
+    
+/// TODO LO DE ABAJO PRUEBA LOS METODOS DE REGRISTRAR SE PRUEBA COMO SETUP!! 
+    
+ ////////////      ///////
+    
+     private Cliente findClient(long doc){
+        Cliente ans=null;
+        for (Cliente c:clientesfill){
+            if (c.getDocumento()==doc){
+                ans=c;
+            }
+        }
+        return ans;
+    }
+    private void fillType(TipoItem ti) throws ExcepcionServiciosAlquiler{
+        if (!usedIdTypes.contains(ti.getID())){            
+            serviciosAlquiler.registrarTipo(ti);
+            usedIdTypes.add(ti.getID());
+        }       
      
-    static{
-        serviciosAlquiler = ServiciosAlquilerFactory.getInstance().getServiciosAlquilerTesting();
-        usedDocs=new ArrayList<Long>();
-        usedItems=new ArrayList<Item>();    
-        usedTypes=new ArrayList<Integer>();   
-        qt().forAll(clients()).check((cliente)->{
-            boolean ans=false;
-            try {
-                serviciosAlquiler.registrarCliente(cliente);
-                ans=true;
-                if (!usedDocs.contains(cliente.getDocumento()))
-                    usedDocs.add(cliente.getDocumento());
-             
-            } catch (ExcepcionServiciosAlquiler ex) {
-                System.out.println("ERRROR");
-            }           
-        
-            return ans;});
-         qt().forAll(items()).check((item)->{
-            boolean ans=false;
-          
-            try {
-               
-                serviciosAlquiler.registrarTipo(item.getTipo());
-                serviciosAlquiler.registrarItem(item);                
-                usedTypes.add(item.getTipo().getID());
-                
-                ans=true;
-              
-                usedItems.add(item);
-               
-            } catch (ExcepcionServiciosAlquiler ex) {
-                //               
-            }                   
-            return ans;});    
-         try{
-            System.out.println("####"+serviciosAlquiler.consultarTiposItem());
-            TipoItem ti=serviciosAlquiler.consultarTipoItem(112345);           
-            System.out.println("##///##"+serviciosAlquiler.consultarItemsDisponibles());
-         }catch(Exception e){
-                 System.out.println(e.getMessage());
-         }
-        
-         qt().forAll(itemsRentados(),
-                 integers().between(0, usedDocs.size()-1),
-                 integers().between(0, 10)
-                ).check((itr,docpick,days)->{    
-                    boolean ans=false;
-                    try {                    
-                        serviciosAlquiler
-                                .registrarAlquilerCliente(itr.getFechainiciorenta(), 
-                                        usedDocs.get(docpick), itr.getItem(), days);
-                        ans=true;
-                    } catch (ExcepcionServiciosAlquiler ex) {
-                        //
-                    }
-                return ans;});      
+    }
+    
+    private void fillItem(Item i) throws ExcepcionServiciosAlquiler{
+        if (!usedIdItems.contains(i.getId())){
+            fillType(i.getTipo());
+            usedIdItems.add(i.getId());
+            serviciosAlquiler.registrarItem(i);
+            serviciosAlquiler.consultarItem(i.getId());
+        }             
     }   
     
-
-    //@Test
-    public void ConsultarClientesTest() throws ExcepcionServiciosAlquiler {
-        qt().forAll(integers().between(0, usedDocs.size()-1)).check((index)->{
-            boolean ans=false;
-            try {
-                serviciosAlquiler.consultarCliente(usedDocs.get(index));
-                ans=true;
-            } catch (ExcepcionServiciosAlquiler ex) {
-                //
-            }     
-            
-            return ans;
-        });
-    }
-    
-   // @Test
-    public void ConsultarTodosClientesTest(){
-        try {
-           
-            assertTrue(serviciosAlquiler.consultarClientes().size()==usedDocs.size());
-        } catch (ExcepcionServiciosAlquiler ex) {
-            //
-        }
-        //forzar();
-    }
     
     
-    //@Test
-    public void ConsultarItemsDisponibles(){
-        try {
-            System.out.println(serviciosAlquiler.consultarItemsDisponibles().size()+"==="+usedItems.size());
-            assertTrue(serviciosAlquiler.consultarItemsDisponibles().size()==usedItems.size());
-             
-        } catch (ExcepcionServiciosAlquiler ex) {
-            //
+    private void fillRent(Cliente cl) throws ExcepcionServiciosAlquiler{
+        List<ItemRentado> irs=cl.getRentados();
+        for (ItemRentado ir:irs){
+            fillItem(ir.getItem());
+            serviciosAlquiler.registrarAlquilerCliente(new java.sql.Date(0L), cl.getDocumento(), ir.getItem(), 5);
         }
     }
-      /*String fs=String.format("FALLO CON: %s,%s,%s,%s,%s,%s",
-                        ""+item.getId(),
-                        ""+item.getTipo(),
-                        ""+item.getNombre(),
-                        ""+item.getDescripcion(),
-                        ""+item.getFechaLanzamiento(),
-                        ""+item.getTarifaxDia(),
-                        ""+item.getFormatoRenta(),
-                        ""+item.getGenero()
-                );
-                System.out.println("==================");
-                System.out.println(fs);
-                System.out.println("==================");
-                System.out.print(ex.getMessage());
-      
-           
     
-    private void forzar(){
-        Cliente p=new Cliente("asd", usedDocs.get(0), "123134", "sda", "asda");
-        try {
-                int antes=serviciosAlquiler.consultarClientes().size();        
-                serviciosAlquiler.registrarCliente(p);
-                System.out.println(antes +">"+serviciosAlquiler.consultarClientes().size());
-                System.out.println("==============");
-                for (int i=0; i<=10 ; i++){
-                    p=new Cliente("asd", 999999999L+i, "123", "sda", "asda");
-                    antes=serviciosAlquiler.consultarClientes().size();        
-                    serviciosAlquiler.registrarCliente(p);
-                    System.out.println(serviciosAlquiler.consultarClientes().size() +">"+antes);
-                }
-                 System.out.println("======NO INSERT ===");
-
-                for (int i=0; i<=10 ; i++){
-                    p=new Cliente("asd", usedDocs.get(i), "123", "sda", "asda");
-                    antes=serviciosAlquiler.consultarClientes().size();        
-                    serviciosAlquiler.registrarCliente(p);
-                    System.out.println(serviciosAlquiler.consultarClientes().size() +">"+antes);
-                } 
-        
-      
+    private void fillRents(){
+        for(Cliente c:clientesfill){
+            try {                
+                fillRent(c);
             } catch (ExcepcionServiciosAlquiler ex) {
-                System.out.println("No ocurrio");
+                 System.out.println(ex.getMessage());
             }
-    }*/
+            
+        }
+    }
+    private void fillClients() {
+        qt().forAll(clientsWithItemsRent()).check((cliente)->{
+            boolean ans=false;
+            try {                   
+                if (!usedDocs.contains(cliente.getDocumento())){    
+                    serviciosAlquiler.registrarCliente(cliente);
+                    clientesfill.add(cliente);
+                    usedDocs.add(cliente.getDocumento());                                  
+                }         
+                 ans=true;  
+              
+            } catch (ExcepcionServiciosAlquiler ex) {
+                ans=false;
+                System.out.println(ex.getMessage());
+            }                       
+        
+            return ans;});
+        fillRents();
+    }
     
+    
+   
     
    
 }

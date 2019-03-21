@@ -17,6 +17,7 @@ import org.quicktheories.core.Gen;
 import org.quicktheories.generators.Generate;
 import static org.quicktheories.generators.SourceDSL.dates;
 import static org.quicktheories.generators.SourceDSL.integers;
+import static org.quicktheories.generators.SourceDSL.lists;
 import static org.quicktheories.generators.SourceDSL.longs;
 import static org.quicktheories.generators.SourceDSL.strings;
 
@@ -43,7 +44,7 @@ public class Generadores {
     }
     
     public static Gen<Long> documents(){
-        return longs().between(1L, 9999999L);
+        return longs().between(1L, 99L);
     } 
     
     public static Gen<String> phones(){
@@ -74,6 +75,19 @@ public class Generadores {
             return new ItemRentado(id, it, dts.get(0), dts.get(1));
         };
         // new ItemRentado(0, item, fechainiciorenta, fechafinrenta)
+    }
+    public static Gen<Cliente> clientsWithItemsRent(){
+        return clients().zip(listItemsRentados(), (c,Rentados)->{
+            ArrayList<ItemRentado> n=new ArrayList<>();
+            for (ItemRentado ir:Rentados){
+                  n.add(ir);
+            }
+            c.setRentados(n);
+        return c;});
+    }
+    
+    public static Gen<List<ItemRentado>> listItemsRentados(){
+        return lists().of(itemsRentados()).ofSizeBetween(1, 5);
     }
     
     public static Gen<Item> items(){

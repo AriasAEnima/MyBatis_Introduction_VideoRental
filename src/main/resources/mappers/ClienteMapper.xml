@@ -62,7 +62,7 @@
         <result property='direccion' column='direccion'/>  
         <result property='email' column='email'/>  
         <result property='vetado' column='vetado'/>        
-        <collection property='rentados' ofType='ItemRentado' column='idrentado' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemRentadoResult'></collection>
+        <collection property='rentados' ofType='ItemRentado' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemRentadoResult'></collection>
     </resultMap>
     <update id="updateTarifa">
         update VI_CLIENTES set

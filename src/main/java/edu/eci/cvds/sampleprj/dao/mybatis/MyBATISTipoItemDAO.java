@@ -29,7 +29,7 @@ public class MyBATISTipoItemDAO implements TipoItemDAO{
             return tipoItemMapper.consultarTiposItems();
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
-            throw new PersistenceException("Error al consultar los tipos",e);
+            throw new PersistenceException(e.getMessage(),e);
         }
     }
 
@@ -38,23 +38,23 @@ public class MyBATISTipoItemDAO implements TipoItemDAO{
        try{
            tipoItemMapper.agregarTipoItem(ti);
            if(ti.getDescripcion()==null){
-               System.out.println("NO ESTA NULOOOOOOOO ====================");
+               System.out.println("ESTA NULOOOOOOOO ===============");
            }
        }
        catch(org.apache.ibatis.exceptions.PersistenceException e){
-            throw new PersistenceException("Error al consultar los tipos",e);
+            throw new PersistenceException(e.getMessage(),e);
        }
     }
 
     @Override
     public TipoItem load(int id) throws PersistenceException {
         try{
-            System.out.println("Llego a MYbatis tipo item DAO");
+            
             return tipoItemMapper.consultarTipo(112345);
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             System.out.println("Se estalla aqui");
-            throw new PersistenceException("Error al consultar los tipos",e);
+            throw new PersistenceException(e.getMessage(),e);
         }
     }
 

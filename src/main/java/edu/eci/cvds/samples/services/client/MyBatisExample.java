@@ -19,6 +19,7 @@ package edu.eci.cvds.samples.services.client;
 
 
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.*;
+import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.samples.entities.TipoItem;
 import java.io.IOException;
@@ -72,9 +73,18 @@ public class MyBatisExample {
         System.out.println(cm.consultarCliente(123456));
         System.out.println("=================================");  
         ItemMapper im=sqlss.getMapper(ItemMapper.class);
+        
         System.out.println(im.consultarItems());
-        TipoItemMapper tim=sqlss.getMapper(TipoItemMapper.class);
-        System.out.println(tim.consultarTipo(112345)+"Funciona el get tipo item");
+        
+        //TipoItem ti=new TipoItem(1, "Bla bla");
+        //Item it=new Item(ti, 85, "Mi primera puñalada", "Pelicula con grandes enseñanzas", new java.sql.Date(0L), 5000, "tdb", "infantil");
+        //im.insertarItem(it);
+        //Cliente cl=new Cliente("Eduardo", 4, "123sss456", "Aqu8i", "emailsk@email.com");
+        //cm.agregarCliente(cl);
+        //cm.agregarItemRentadoACliente(8588, 40, new Date(), new Date());
+        //Cliente cl=cm.consultarCliente(8588);        
+        
+        System.out.println(" De nuevo yo"+cm.consultarCliente(4));
         
        
         

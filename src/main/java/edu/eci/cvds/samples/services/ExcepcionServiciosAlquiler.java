@@ -12,13 +12,14 @@ import edu.eci.cvds.sampleprj.dao.PersistenceException;
  * @author 2131381
  */
 public class ExcepcionServiciosAlquiler extends Exception {
+   
 
     public ExcepcionServiciosAlquiler(String string, PersistenceException ex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super(string, ex);
     }
 
     public ExcepcionServiciosAlquiler(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super(string);
     }
     
 }

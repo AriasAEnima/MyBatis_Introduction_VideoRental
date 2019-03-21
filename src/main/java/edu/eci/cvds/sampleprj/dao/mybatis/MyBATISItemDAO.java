@@ -20,9 +20,12 @@ public class MyBATISItemDAO implements ItemDAO{
   public void save(Item it) throws PersistenceException{
     try{
         itemMapper.insertarItem(it);
+        if (it.getTipo()==null){
+            System.out.println("TIPO EN ITEM ES NULOOOOOOOO A!!!!!!");
+        }
     }
     catch(org.apache.ibatis.exceptions.PersistenceException e){
-        throw new PersistenceException("Error al registrar el item "+it.toString(),e);
+        throw new PersistenceException(e.getMessage()+it.toString(),e);
     }        
 
   }
@@ -33,7 +36,7 @@ public class MyBATISItemDAO implements ItemDAO{
             return itemMapper.consultarItem(id);
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
-            throw new PersistenceException("Error al consultar el item "+id,e);
+            throw new PersistenceException(e.getMessage(),e);
         }
 
     }

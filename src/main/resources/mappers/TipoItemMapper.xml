@@ -5,7 +5,7 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper">
     <select parameterType="map" id="consultarTiposItems" resultMap="TipoItemResult"> 
-        select id as tipoid, descripcion from VI_TIPOITEM
+        select id as tipoid, descripcion as tipodescripcion from VI_TIPOITEM
     </select>
     
      <select parameterType="map" id="consultarTipo" resultMap="TipoItemResult">
@@ -15,7 +15,7 @@
     
     <insert parameterType="map" id="agregarTipoItem" >
 	INSERT INTO VI_TIPOITEM (id,descripcion)
-		VALUES (#{ti.id},#{ti.descripcion))
+		VALUES (#{ti.id},#{ti.descripcion})
     </insert>
     
  
