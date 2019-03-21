@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import edu.eci.cvds.sampleprj.dao.ClienteDAO;
 import edu.eci.cvds.sampleprj.dao.ItemDAO;
 import edu.eci.cvds.sampleprj.dao.PersistenceException;
+import static edu.eci.cvds.sampleprj.dao.PersistenceException.*;
 import edu.eci.cvds.sampleprj.dao.TipoItemDAO;
 
 import edu.eci.cvds.samples.entities.Cliente;
@@ -36,7 +37,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            it=itemDAO.load(itemId);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Item no encontrado", ex);
+           throw new ExcepcionServiciosAlquiler(ITEM_NO_ENCONTRADO, ex);
        }
         return (int) it.getTarifaxDia();
    }
@@ -47,7 +48,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            cl=clienteDAO.load(docu);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Cliente no encontrado", ex);
+           throw new ExcepcionServiciosAlquiler(CLIENTE_NO_ENCONTRADO, ex);
        }
         return cl;
    }
@@ -58,7 +59,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            cl=clienteDAO.load(idcliente);           
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Cliente no encontrado", ex);
+           throw new ExcepcionServiciosAlquiler(CLIENTE_NO_ENCONTRADO, ex);
        }
         return cl.getRentados();
    }
@@ -69,7 +70,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            ans=clienteDAO.loadAll();           
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Sin Registros", ex);
+           throw new ExcepcionServiciosAlquiler(SIN_REGISTRO, ex);
        }
         return ans;
    }
@@ -79,7 +80,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            return itemDAO.load(id);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error al consultar el item "+id,ex);
+           throw new ExcepcionServiciosAlquiler(ERROR_CONSULTAR_ITEM+id,ex);
        }
    }
 
@@ -88,7 +89,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            return itemDAO.loadAll();
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error al consultar los items ",ex);
+           throw new ExcepcionServiciosAlquiler(ERROR_CONSULTAR_ITEMS,ex);
        }
    }
 
@@ -104,7 +105,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
            }
        }
        if (fc==null)
-           throw new ExcepcionServiciosAlquiler("Item no esta rentado o no existe");       
+           throw new ExcepcionServiciosAlquiler(ITEM_NO_EXISTE);       
        
        long diff = fechaDevolucion.getTime()-fc.getFechafinrenta().getTime();
        
@@ -127,7 +128,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            return tipoitemDAO.loadAll();
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error al consultar los tipos",ex);
+           throw new ExcepcionServiciosAlquiler(ERROR_TIPOS,ex);
        }
    }
 
@@ -136,7 +137,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            clienteDAO.rentItemtoClient(docu, item.getId(),numdias);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("No existe el item o no existe el cliente", ex);
+           throw new ExcepcionServiciosAlquiler(CLIENTE_ITEM_NO_ENCONTRADO, ex);
        }      
    }
 
@@ -145,7 +146,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
       try {
            clienteDAO.save(c);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("No existe el item o no existe el cliente", ex);
+           throw new ExcepcionServiciosAlquiler(CLIENTE_ITEM_NO_ENCONTRADO, ex);
        }  
    }
 
@@ -154,7 +155,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            return itemDAO.load(iditem).getTarifaxDia()*numdias;
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("No se encuentra el item ",ex);
+           throw new ExcepcionServiciosAlquiler(ITEM_NO_ENCONTRADO,ex);
        }
    }
 
@@ -163,7 +164,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
        try {
            itemDAO.updateTarifa(id, tarifa);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("No se encuentra el item ",ex);
+           throw new ExcepcionServiciosAlquiler(ITEM_NO_ENCONTRADO,ex);
        }
    }
    @Override
@@ -171,7 +172,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
         try {
            itemDAO.save(i);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error de datos , posiblemente tipo no existe ",ex);
+           throw new ExcepcionServiciosAlquiler(NO_FK,ex);
        }
    }
 
@@ -180,7 +181,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
         try {
            clienteDAO.setVetado(docu, estado);
         }catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Cliente no encontrado ",ex);
+           throw new ExcepcionServiciosAlquiler(CLIENTE_NO_ENCONTRADO,ex);
         }
    }
 }
