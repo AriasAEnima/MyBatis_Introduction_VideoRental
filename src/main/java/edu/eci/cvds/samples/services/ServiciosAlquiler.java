@@ -63,6 +63,8 @@ public interface ServiciosAlquiler {
    public abstract void registrarAlquilerCliente(Date date, long docu, Item item, int numdias) throws ExcepcionServiciosAlquiler;
 
    public abstract void registrarCliente(Cliente p) throws ExcepcionServiciosAlquiler;
+   
+   public abstract void registrarTipo(TipoItem t) throws ExcepcionServiciosAlquiler;
 
    /**
    * @obj consultar el costo del alquiler de un item

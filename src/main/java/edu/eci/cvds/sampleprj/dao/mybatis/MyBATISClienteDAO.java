@@ -48,9 +48,8 @@ public class MyBATISClienteDAO implements ClienteDAO{
     }
 
     @Override
-    public void rentItemtoClient(long dc,int idit,int days) throws PersistenceException {
-         try{
-            Date fechainicio=new Date();
+    public void rentItemtoClient(Date fechainicio,long dc,int idit,int days) throws PersistenceException {
+         try{            
             Calendar c = Calendar.getInstance();
             c.setTime(fechainicio);
             c.add(Calendar.DATE, days);
@@ -66,6 +65,7 @@ public class MyBATISClienteDAO implements ClienteDAO{
         try{
              clienteMapper.agregarCliente(c);
         }catch(org.apache.ibatis.exceptions.PersistenceException e){
+            System.out.println("ERRRIR EN EL MAPEER=========00000000000");
              throw new PersistenceException("Cliente ya existe",e);
         }   
     }

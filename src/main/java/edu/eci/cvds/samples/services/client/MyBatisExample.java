@@ -73,6 +73,8 @@ public class MyBatisExample {
         System.out.println("=================================");  
         ItemMapper im=sqlss.getMapper(ItemMapper.class);
         System.out.println(im.consultarItems());
+        TipoItemMapper tim=sqlss.getMapper(TipoItemMapper.class);
+        System.out.println(tim.consultarTipo(112345)+"Funciona el get tipo item");
         
        
         

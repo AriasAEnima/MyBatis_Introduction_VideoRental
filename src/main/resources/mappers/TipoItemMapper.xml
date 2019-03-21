@@ -4,20 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper">
-    <select parameterType="map" id="getTiposItems" resultMap="TipoItemResult"> 
+    <select parameterType="map" id="consultarTiposItems" resultMap="TipoItemResult"> 
         select id as tipoid, descripcion from VI_TIPOITEM
     </select>
     
-     <select parameterType="map" id="getTipoItem" resultMap="TipoItemResult">
-	SELECT * FROM VI_TIPOITEM
+     <select parameterType="map" id="consultarTipo" resultMap="TipoItemResult">
+	SELECT id as tipoid , descripcion as tipodescripcion FROM VI_TIPOITEM
 		WHERE id=#{id}
     </select>
     
-    <insert parameterType="TipoItem" id="addTipoItem" >
-	INSERT INTO VI_TIPOITEM (descripcion)
-		VALUES (#{descripcion})
+    <insert parameterType="map" id="agregarTipoItem" >
+	INSERT INTO VI_TIPOITEM (id,descripcion)
+		VALUES (#{ti.id},#{ti.descripcion))
     </insert>
     
+ 
      <resultMap type='TipoItem' id='TipoItemResult'>
         <id property='id' column='tipoid'/>
         <result property='descripcion' column='tipodescripcion'/>              

@@ -120,7 +120,12 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
 
    @Override
    public TipoItem consultarTipoItem(int id) throws ExcepcionServiciosAlquiler {
-       return consultarItem(id).getTipo();
+         try {
+             System.out.println("Llego a IMPL");
+           return tipoitemDAO.load(id);
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar los tipos",ex);
+       }
    }
 
    @Override
@@ -135,7 +140,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
    @Override
    public void registrarAlquilerCliente(Date date, long docu, Item item, int numdias) throws ExcepcionServiciosAlquiler {     
        try {
-           clienteDAO.rentItemtoClient(docu, item.getId(),numdias);
+           clienteDAO.rentItemtoClient(new java.util.Date(),docu, item.getId(),numdias);
        } catch (PersistenceException ex) {
            throw new ExcepcionServiciosAlquiler(CLIENTE_ITEM_NO_ENCONTRADO, ex);
        }      
@@ -146,7 +151,11 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
       try {
            clienteDAO.save(c);
        } catch (PersistenceException ex) {
+<<<<<<< HEAD
            throw new ExcepcionServiciosAlquiler(CLIENTE_ITEM_NO_ENCONTRADO, ex);
+=======
+           throw new ExcepcionServiciosAlquiler("El cliente ya existe", ex);
+>>>>>>> 87153ec0f0e798a898a7fc64bcf289326360e21d
        }  
    }
 
@@ -184,4 +193,14 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler {
            throw new ExcepcionServiciosAlquiler(CLIENTE_NO_ENCONTRADO,ex);
         }
    }
+
+    @Override
+    public void registrarTipo(TipoItem ti) throws ExcepcionServiciosAlquiler {
+         try {
+             tipoitemDAO.save(ti);
+       } catch (PersistenceException ex) {      
+           throw new ExcepcionServiciosAlquiler("Error de datos ",ex);
+       }
+        
+    }
 }
