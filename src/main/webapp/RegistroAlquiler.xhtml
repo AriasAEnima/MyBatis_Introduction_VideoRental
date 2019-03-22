@@ -3,12 +3,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head></h:head>
-
-    <h:head></h:head>
     <h:body>
         <h:form id="items">
-            <p:dataTable var="itemRentado" value="#{AlquilerItems.listaItems}">
-
+            <p:layoutUnit position="north" minSize="100">
+            <p:dataTable var="itemRentado" value="#{AlquilerItems.listaRentados}">               
+                
                 <p:column headerText="Nombre">
                     <h:outputText value="#{itemRentado.item.nombre}" />
                 </p:column>
@@ -20,11 +19,28 @@
                 <p:column headerText="Multa">
                     <h:outputText value="#{itemRentado.item.tarifaxDia}" />
                 </p:column>
-                
-                              
-
             </p:dataTable>
+            </p:layoutUnit>
+            <p:layoutUnit  position="" maxSize="100">
+                <p:dataTable var="item" value="#{AlquilerItems.listaItems}">
+                    <p:column headerText="Id">
+                            <h:outputText value="#{item.id}" />
+                    </p:column>           
 
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{item.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Tipo">
+                        <h:outputText value="#{item.tipo.descripcion}" />
+                    </p:column>
+
+                    <p:column headerText="Multa">
+                        <h:outputText value="#{item.tarifaxDia}" />
+                    </p:column>
+                </p:dataTable>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
             <br/>
             <h:outputText value="RENTAR NUEVO ITEM" />
             <br/>
@@ -50,9 +66,9 @@
                 </p:column>
             </p:dataTable>
              <br/>
-             <p:commandButton value="Rentar item" icon="ui-icon-circle-check"  update="items" actionListener="#{AlquilerItems.rentarItem()}"/>
+             <p:commandButton value="Rentar item" icon="ui-icon-circle-check"  update="items" actionListener="#{AlquilerItems.rentarItem}"/>
             <br/>
-
+            </p:layoutUnit>
         </h:form>
 
     </h:body>

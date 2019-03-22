@@ -5,6 +5,7 @@
  */
 package edu.eci.cvds.view;
 
+import com.google.inject.Inject;
 import edu.eci.cvds.view.BasePageBean;
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
@@ -33,12 +34,16 @@ import org.primefaces.event.UnselectEvent;
 @SessionScoped
 public class AlquilerItemsBean extends BasePageBean implements Serializable {
 
-    ServiciosAlquiler sp = ServiciosAlquilerFactory.getInstance().getServiciosAlquiler();
+   // ServiciosAlquiler sp = ServiciosAlquilerFactory.getInstance().getServiciosAlquiler();
+    
+    @Inject
+    ServiciosAlquiler sp;
     
     public List<Cliente> listaClientes;
     public Cliente cliente;
     public ItemRentado itemRentado;
-    public List<ItemRentado> listaItems;
+    public List<ItemRentado> listaRentados;
+    public List<Item> listaItems;
     
     public String nombre;
     public long documento;
@@ -54,12 +59,28 @@ public class AlquilerItemsBean extends BasePageBean implements Serializable {
     public Item it;
     
     public void rentarItem() throws ExcepcionServiciosAlquiler{
+        it=sp.consultarItem(itemId);
         sp.registrarAlquilerCliente(java.sql.Date.valueOf(LocalDate.MAX), cliente.getDocumento(), it, dias);
         
     }
 
     public Item getItem() throws ExcepcionServiciosAlquiler {
         return sp.consultarItem(itemId);
+    }
+
+    public List<Item> getListaItems() {
+        if (listaItems==null){
+            try {
+                listaItems=sp.consultarItemsDisponibles();
+            } catch (ExcepcionServiciosAlquiler ex) {
+                Logger.getLogger(AlquilerItemsBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return listaItems;
+    }
+
+    public void setListaItems(List<Item> listaItems) {
+        this.listaItems = listaItems;
     }
 
     public long getPrecio() {
@@ -117,7 +138,7 @@ public class AlquilerItemsBean extends BasePageBean implements Serializable {
     }
 
     public AlquilerItemsBean() {
-        this.cliente = new Cliente();
+        this.cliente = new Cliente();     
     }
 
     public ItemRentado getItemRentado() {
@@ -128,12 +149,12 @@ public class AlquilerItemsBean extends BasePageBean implements Serializable {
         this.itemRentado = itemRentado;
     }
 
-    public List<ItemRentado> getListaItems() throws ExcepcionServiciosAlquiler {
+    public List<ItemRentado> getListaRentados() throws ExcepcionServiciosAlquiler {
         return sp.consultarItemsCliente(this.cliente.getDocumento());
     }
 
-    public void setListaItems(List<ItemRentado> listaItems) {
-        this.listaItems = listaItems;
+    public void setListaRentados(List<ItemRentado> listaItems) {
+        this.listaRentados = listaItems;
     }
     
     public List<Cliente> getListaClientes() throws ExcepcionServiciosAlquiler {

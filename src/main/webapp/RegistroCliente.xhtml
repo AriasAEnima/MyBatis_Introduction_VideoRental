@@ -7,7 +7,7 @@
     <h:body>
         <h:form id="clientes">
             <p:layout >
-                <p:layoutUnit position="north" resizable="true" size="100" minSize="40" maxSize="200">
+                <p:layoutUnit position="north" minSize="100">
                     <p:dataTable var="cliente" value="#{AlquilerItems.listaClientes}" 
                                  selectionMode="single" selection="#{AlquilerItems.cliente}" 
                                  rowKey="#{cliente.documento}">
@@ -31,10 +31,7 @@
                         <p:column headerText="Vetado">
                             <h:outputText value="#{cliente.vetado}" />
                         </p:column>
-                        <p:column headerText="Vetado">
-                            <h:outputText value="#{cliente.vetado}" />
-                        </p:column>
-                        
+                   
                         
                     </p:dataTable>
                 </p:layoutUnit>
