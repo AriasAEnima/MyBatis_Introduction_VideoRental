@@ -2,6 +2,8 @@
 ### Ciclos de Vida del desarrollo de Software – CVDS
 #### Tecnologías de persistencia - Frameworks de Persistencia - Introducción a MyBatis
 
+[![CircleCI](https://circleci.com/gh/AriasAEnima/ParcialApp.svg?style=svg)](https://circleci.com/gh/AriasAEnima/ParcialApp)
+
 
 En este laboratorio se utilizará un 'framework' de persistencia. La base de datos que se utilizará tiene los siguientes parámetros:
 
