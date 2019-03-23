@@ -101,7 +101,7 @@ public class AlquilerItemsBean extends BasePageBean implements Serializable {
 
     public void consultaPrecio() throws ExcepcionServiciosAlquiler {
        
-       precio=sp.consultarCostoAlquiler(itemID,this.dias);
+       precio=sp.consultarCostoAlquiler(itemId,this.dias);
         
     }
 
