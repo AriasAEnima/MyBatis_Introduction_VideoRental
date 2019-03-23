@@ -6,6 +6,7 @@
     <h:body>
         <h:form id="items">
             <p:layoutUnit position="north" minSize="100">
+             <h3> Items Rentados </h3>
             <p:dataTable var="itemRentado" value="#{AlquilerItems.listaRentados}">               
                 
                 <p:column headerText="Nombre">
@@ -22,6 +23,7 @@
             </p:dataTable>
             </p:layoutUnit>
             <p:layoutUnit  position="" maxSize="100">
+                <h3>Items Disponibles</h3>
                 <p:dataTable var="item" value="#{AlquilerItems.listaItems}">
                     <p:column headerText="Id">
                             <h:outputText value="#{item.id}" />
